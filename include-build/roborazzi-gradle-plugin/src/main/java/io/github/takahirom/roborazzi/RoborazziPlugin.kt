@@ -151,6 +151,12 @@ abstract class RoborazziPlugin : Plugin<Project> {
             DEFAULT_TEMP_DIR
           )
         )
+      val outputDirForEachVariant =
+        testTaskOutputDirForEachVariant.convention(
+          project.layout.buildDirectory.dir(
+            DEFAULT_OUTPUT_DIR
+          )
+        )
 
       //      val reportOutputDir = project.layout.buildDirectory.dir("reports/roborazzi")
       //      val snapshotOutputDir = project.layout.projectDirectory.dir("src/test/snapshots")
@@ -301,6 +307,10 @@ abstract class RoborazziPlugin : Plugin<Project> {
         .configureEach { test ->
           val resultsDir = resultDirFileProperty.get().asFile
           test.outputs.dir(intermediateDirForEachVariant.map {
+            test.infoln("Roborazzi: Set output dir $it to test task")
+            it
+          })
+          test.outputs.dir(outputDirForEachVariant.map {
             test.infoln("Roborazzi: Set output dir $it to test task")
             it
           })
